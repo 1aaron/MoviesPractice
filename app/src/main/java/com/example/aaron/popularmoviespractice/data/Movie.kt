@@ -5,11 +5,13 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity
 class Movie(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    @PrimaryKey()
+    var id: String,
     var title:String,
     var image: String,
     var synopsis: String,
     var rating: String,
-    var date: String
+    var date: String,
+    var popularity: String,
+    var language: String
 )

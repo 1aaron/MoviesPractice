@@ -5,7 +5,7 @@ import android.arch.persistence.room.*
 
 @Dao
 interface MovieDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(movie: Movie)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

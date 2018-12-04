@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.aaron.popularmoviespractice.R
 import com.example.aaron.popularmoviespractice.adapters.MoviesAdapter
+import com.example.aaron.popularmoviespractice.network.NetworkCalls
 import com.example.aaron.popularmoviespractice.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -33,9 +34,19 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
+        //todo: show loader
         por_layoutMovies.setHasFixedSize(true)
         gridLayoutManager = GridLayoutManager(context,2)
+        por_layoutMovies.layoutManager = gridLayoutManager
+        adapter = MoviesAdapter(context!!)
+        por_layoutMovies.adapter = adapter
+
+        NetworkCalls.getMoviesFromNetwork(context!!) {
+           if(it) {
+               //todo: remove loader
+           }
+        }
+
         //todo: check for better approach
         /*if(Statics.screenWidth > 720 && !Statics.land){
             gridLayoutManager = GridLayoutManager(context,3)
@@ -44,12 +55,8 @@ class MainFragment : Fragment() {
             gridLayoutManager = GridLayoutManager(context,2)
         }*/
         //prepare recycler view
-        por_layoutMovies.layoutManager = gridLayoutManager
-        context?.let {
-            context ->
-            adapter = MoviesAdapter(context)
-            por_layoutMovies.adapter = adapter
-        }
+
+
 
         viewModel.getMovies().observe(this, Observer {
             movies ->

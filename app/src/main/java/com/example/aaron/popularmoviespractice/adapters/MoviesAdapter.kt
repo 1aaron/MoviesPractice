@@ -20,8 +20,7 @@ class MoviesAdapter(var context:Context): RecyclerView.Adapter<MoviesAdapter.Vie
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(p0.context).inflate(R.layout.movie_image,p0,false)
-        val vHolder = ViewHolder(view)
-        return vHolder
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -31,7 +30,14 @@ class MoviesAdapter(var context:Context): RecyclerView.Adapter<MoviesAdapter.Vie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = listMovies[position]
         val imagePath = movie.image
-        Picasso.get().load(imagePath).into(holder.imageView)
+        Log.e("imageToLoad",imagePath)
+
+        val picasso = Picasso.get()
+        picasso.isLoggingEnabled = true
+        picasso.load(imagePath)
+            .error(android.R.drawable.stat_notify_error)
+            .fit()
+            .into(holder.imageView)
         holder.imageView.setOnClickListener {
             Log.e("TAG","clicked image $position")
             //todo: show information
