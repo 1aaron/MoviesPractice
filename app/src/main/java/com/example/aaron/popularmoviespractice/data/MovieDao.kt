@@ -19,4 +19,5 @@ interface MovieDao {
 
     @Query("SELECT * FROM Movie")
     fun getMovies(): LiveData<List<Movie>>
+
 }

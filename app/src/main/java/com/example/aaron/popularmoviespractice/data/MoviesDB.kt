@@ -12,13 +12,12 @@ abstract class MoviesDB: RoomDatabase() {
             var sInstance: MoviesDB? = null
             var LOG_TAG = MoviesDB::class.java.simpleName
             val LOCK = Object()
-            const val DATABASE_NAME = "cocaDB"
-
+            const val DATABASE_NAME = "moviesDB"
             fun getInstance(context: Context): MoviesDB {
                 if (sInstance == null) {
                     synchronized(LOCK) {
                         Log.d(LOG_TAG,"Creating Database instance")
-                        sInstance = Room.databaseBuilder(context.applicationContext,MoviesDB::class.java, DATABASE_NAME)
+                        sInstance = Room.databaseBuilder(context,MoviesDB::class.java, DATABASE_NAME)
                             .build()
                     }
                 }
@@ -26,4 +25,5 @@ abstract class MoviesDB: RoomDatabase() {
                 return sInstance!!
             }
         }
+    abstract fun movieDao(): MovieDao
 }
