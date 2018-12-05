@@ -76,4 +76,34 @@ object NetworkCalls {
             it.add(stringResquest)
         }
     }
+    fun getTrailers(context: Context,movieId: String,completionHandler: (response: ArrayList<Trailer>) -> Unit) {
+        val url = context.getString(R.string.trailers,movieId,Globals.API_KEY_VALUE)
+        val stRequest = StringRequest(Request.Method.GET,url, Response.Listener {
+                response ->
+            val raiz = JSONObject(response)
+            if(raiz.has("results")){
+                val results = raiz.getJSONArray("results")
+                if(results.length() > 0){
+                    var i = 0
+                    while (i<results.length()){
+                        val json = results.getJSONObject(i)
+                        val trailer = Trailer(json.getString("key"),json.getString("site"),json.getString("name"))
+                        arrayVideos.add(trailer)
+                        i++
+                    }
+                    mostrarTrailers()
+                }else{
+                    Toast.makeText(context,resources.getString(R.string.noTrailer),Toast.LENGTH_SHORT).show()
+                }
+            }
+            pDialog.dismiss()
+        }, Response.ErrorListener {
+                error ->
+            Log.e("tag","error videos",error)
+            Toast.makeText(context,resources.getString(R.string.errorTrailer),Toast.LENGTH_SHORT).show()
+            pDialog.dismiss()
+        })
+        stRequest.setRetryPolicy(DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        Statics.volleyqueue.add(stRequest)
+    }
 }

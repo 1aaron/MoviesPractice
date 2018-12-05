@@ -1,6 +1,5 @@
 package com.example.aaron.popularmoviespractice.ui.view
 
-import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,6 +10,8 @@ import com.example.aaron.popularmoviespractice.R
 import com.example.aaron.popularmoviespractice.data.Movie
 import com.example.aaron.popularmoviespractice.databinding.DetailFragmentBinding
 import com.example.aaron.popularmoviespractice.viewModel.DetailViewModel
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.detail_fragment.*
 
 
 class DetailFragment : Fragment() {
@@ -39,6 +40,12 @@ class DetailFragment : Fragment() {
             viewModel.movieDescription = it.synopsis
             //viewModel.movieLength =
             viewModel.movieRate = it.rating
+            val picasso = Picasso.get()
+            picasso.isLoggingEnabled = true
+            picasso.load(it.image)
+                .error(android.R.drawable.stat_notify_error)
+                .fit()
+                .into(det_imageMovie)
         }
     }
 
