@@ -1,6 +1,9 @@
 package com.example.aaron.popularmoviespractice.adapters
 
+import android.app.Application
 import android.content.Context
+import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +12,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.example.aaron.popularmoviespractice.R
 import com.example.aaron.popularmoviespractice.data.Movie
+import com.example.aaron.popularmoviespractice.ui.view.DetailFragment
 import com.squareup.picasso.Picasso
 
-class MoviesAdapter(var context:Context): RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter(var activity:FragmentActivity): RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     var listMovies:List<Movie> = listOf()
     fun setData(movies: List<Movie>) {
         this.listMovies = movies
@@ -40,7 +44,13 @@ class MoviesAdapter(var context:Context): RecyclerView.Adapter<MoviesAdapter.Vie
             .into(holder.imageView)
         holder.imageView.setOnClickListener {
             Log.e("TAG","clicked image $position")
-            //todo: show information
+            val fragment = DetailFragment()
+            fragment.movie = movie
+            activity.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
+                .replace(R.id.container, fragment)
+                .addToBackStack("movies")
+                .commit()
         }
     }
 

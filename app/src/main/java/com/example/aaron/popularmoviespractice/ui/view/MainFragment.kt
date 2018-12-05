@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.aaron.popularmoviespractice.MainActivity
 import com.example.aaron.popularmoviespractice.R
 import com.example.aaron.popularmoviespractice.adapters.MoviesAdapter
 import com.example.aaron.popularmoviespractice.network.NetworkCalls
@@ -38,7 +39,7 @@ class MainFragment : Fragment() {
         por_layoutMovies.setHasFixedSize(true)
         gridLayoutManager = GridLayoutManager(context,2)
         por_layoutMovies.layoutManager = gridLayoutManager
-        adapter = MoviesAdapter(context!!)
+        adapter = MoviesAdapter(activity!!)
         por_layoutMovies.adapter = adapter
 
         NetworkCalls.getMoviesFromNetwork(context!!) {
