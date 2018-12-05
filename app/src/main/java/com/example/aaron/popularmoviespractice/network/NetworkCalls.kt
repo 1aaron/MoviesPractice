@@ -20,7 +20,11 @@ import java.nio.channels.CompletionHandler
 object NetworkCalls {
     fun getMoviesFromNetwork(context: Context, completionHandler: (response: Boolean) -> Unit) {
         var urlBuilder = Uri.Builder()
-        urlBuilder.scheme("https").authority(context.getString(R.string.fetchMovies)).appendPath("3").appendPath("movie").appendPath(Globals.POPULAR_KEY)
+        if(Globals.chosen_filter == Globals.POPULAR_KEY_NUMBER) {
+            urlBuilder.scheme("https").authority(context.getString(R.string.fetchMovies)).appendPath("3").appendPath("movie").appendPath(Globals.POPULAR_KEY)
+        } else {
+            urlBuilder.scheme("https").authority(context.getString(R.string.fetchMovies)).appendPath("3").appendPath("movie").appendPath(Globals.TOP_RATED_KEY)
+        }
         urlBuilder.appendQueryParameter(Globals.API_KEY,Globals.API_KEY_VALUE)
         val url = urlBuilder.build()
         Log.e("urlbuilt",url.toString())
@@ -42,7 +46,7 @@ object NetworkCalls {
                     }
                 }.start()
             }
-            while (i<results.length()){
+            while (i<results.length()) {
                 val json: JSONObject = results.getJSONObject(i)
                 val movieImage = json.optString("poster_path","")
                 val mImageUrl = context.getString(R.string.imageUrl,movieImage)
