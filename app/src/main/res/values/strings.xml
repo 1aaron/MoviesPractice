@@ -3,5 +3,7 @@
     <string name="filter">Filter</string>
     <string name="filterPopularity">Popularity</string>
     <string name="filterRated">Top Rated</string>
-    <string name="trailers"> https://api.themoviedb.org/3/movie/%1$s/videos?api_key=%2$s</string>
+    <string name="noTrailer">No trailers available</string>
+    <string name="errorTrailer">Error fetching trailers</string>
+    <string name="imageMovie">Movie image</string>
 </resources>

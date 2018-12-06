@@ -1,4 +1,3 @@
 package com.example.aaron.popularmoviespractice.data
 
-class Trailer {
-}
+class Trailer(var key: String, var site: String, var name: String)

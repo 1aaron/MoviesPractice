@@ -2,4 +2,6 @@
 <resources>
     <string name="imageUrl">http://image.tmdb.org/t/p/w185%1$s</string>
     <string name="fetchMovies">api.themoviedb.org</string>
+    <string name="urlYoutube">https://www.youtube.com/watch?v=%1$s</string>
+    <string name="trailers"> https://api.themoviedb.org/3/movie/%1$s/videos?api_key=%2$s</string>
 </resources>

@@ -11,6 +11,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.example.aaron.popularmoviespractice.R
 import com.example.aaron.popularmoviespractice.data.Movie
+import com.example.aaron.popularmoviespractice.data.Trailer
 import com.example.aaron.popularmoviespractice.objects.Globals
 import org.json.JSONObject
 import java.net.URI
@@ -76,12 +77,14 @@ object NetworkCalls {
             it.add(stringResquest)
         }
     }
-    fun getTrailers(context: Context,movieId: String,completionHandler: (response: ArrayList<Trailer>) -> Unit) {
+    fun getTrailers(context: Context,movieId: String,completionHandler: (response: ArrayList<Trailer>?) -> Unit) {
+        var arrayVideos = ArrayList<Trailer>()
         val url = context.getString(R.string.trailers,movieId,Globals.API_KEY_VALUE)
+        Log.e("load","FETCHING $url")
         val stRequest = StringRequest(Request.Method.GET,url, Response.Listener {
                 response ->
             val raiz = JSONObject(response)
-            if(raiz.has("results")){
+            if(raiz.has("results")) {
                 val results = raiz.getJSONArray("results")
                 if(results.length() > 0){
                     var i = 0
@@ -91,19 +94,22 @@ object NetworkCalls {
                         arrayVideos.add(trailer)
                         i++
                     }
-                    mostrarTrailers()
+                    Log.e("load","videos $arrayVideos")
+                    completionHandler(arrayVideos)
                 }else{
-                    Toast.makeText(context,resources.getString(R.string.noTrailer),Toast.LENGTH_SHORT).show()
+                    Log.e("load","videos null")
+                    completionHandler(null)
+                    Toast.makeText(context,context.getString(R.string.noTrailer),Toast.LENGTH_SHORT).show()
                 }
             }
-            pDialog.dismiss()
         }, Response.ErrorListener {
                 error ->
             Log.e("tag","error videos",error)
-            Toast.makeText(context,resources.getString(R.string.errorTrailer),Toast.LENGTH_SHORT).show()
-            pDialog.dismiss()
+            Log.e("load","videos null 2")
+            completionHandler(null)
+            Toast.makeText(context,context.getString(R.string.errorTrailer),Toast.LENGTH_SHORT).show()
         })
-        stRequest.setRetryPolicy(DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
-        Statics.volleyqueue.add(stRequest)
+        stRequest.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        Globals.volleyQue?.add(stRequest)
     }
 }

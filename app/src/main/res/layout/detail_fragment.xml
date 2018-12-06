@@ -12,7 +12,7 @@
             android:layout_height="wrap_content">
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:context="com.example.aaron.popularmoviespractice.MainActivity">
             <TextView
                     android:layout_width="0dp"
@@ -30,6 +30,7 @@
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="200dp"
+                    android:contentDescription="@string/imageMovie"
                     android:id="@+id/det_imageMovie"
                     app:layout_constraintTop_toBottomOf="@id/det_txtTitle"
                     android:src="@mipmap/ic_launcher_round"
@@ -93,6 +94,23 @@
                     android:text="@{dataViewModel.movieDescription}"/>
 
 
+            <android.support.v4.widget.NestedScrollView
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:fillViewport="true"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/det_txtDesc"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/det_linearTrailers"
+                        android:orientation="vertical">
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>
